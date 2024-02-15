@@ -35,12 +35,17 @@ def insert_data_in_list(dic, headers):
                 if pd.isna(dic[headers[index2]][index]):
                     dic[headers[index2]][index] = None
                 new_list.append(dic[headers[index2]][index])
+                index2 += 1
             data_list.append(new_list)
         except Exception:
                 print(colors.clr.fg.yellow, f"Warning: an error occured on line {index + 2}.", colors.clr.reset)
         index += 1
     
-    return data_list
+    return data_list, dic
+
+
+def find_type_of_column(headers, data_list):
+    
 
 
 def parse(csv_data, path):
@@ -55,15 +60,20 @@ def parse(csv_data, path):
     # get list of header csv
     headers = csv_data.columns.values.tolist()
 
-    # function for check len of all column, error if different
-    dic = check_len_colums(headers, csv_data)
-    
-    data_list = insert_data_in_list(dic, headers)
+    # function for create a dictionnary of data and check len of all column, error if different
+    data_dic = check_len_colums(headers, csv_data)
+
+    # function for create a list of data
+    data_list, data_dic = insert_data_in_list(data_dic, headers)
+
+    # function for find type of each column
+    columns_type = find_type_of_column(headers, data_list)
     
     # create csv_objet with all informations and data
     csv_object = {}
     csv_object["headers"] = headers
-    csv_object["data"] = data_list
+    csv_object["data_list"] = data_list
+    csv_object["data_dic"] = data_dic
     csv_object["columns_len"] = len(data_list)
     csv_object["columns_number"] = len(headers)
 
