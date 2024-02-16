@@ -203,7 +203,7 @@ def display_max(headers, columns_elt_mlen, columns_type, data_dic):
     print("")
 
 
-def display_25quartiles(headers, columns_elt_mlen, columns_type, columns_len, data_dic):
+def display_25quartile(headers, columns_elt_mlen, columns_type, columns_len, data_dic):
     alternate_color = True
 
     print("25%", end="")
@@ -221,7 +221,7 @@ def display_25quartiles(headers, columns_elt_mlen, columns_type, columns_len, da
             if data_sort[q1] != None:
                 formatted = "{:.6f}".format(data_sort[q1])
             else:
-                formatted = data_sort[elt][q1]
+                formatted = data_sort[q1]
             print(f"{color}", end="")
             print(formatted, end="")
             print(" "*(columns_elt_mlen[elt] - len(str(formatted))), end="")
@@ -232,7 +232,43 @@ def display_25quartiles(headers, columns_elt_mlen, columns_type, columns_len, da
     print("")
 
 
-def display_75quartiles(headers, columns_elt_mlen, columns_type, columns_len, data_dic):
+def display_50quartile(headers, columns_elt_mlen, columns_type, columns_len, data_dic):
+    alternate_color = True
+
+    print("50%", end="")
+    print(" "*6, end="")
+
+    for elt in headers:
+        if alternate_color is True:
+            color = colors.clr.fg.purple
+        else:
+            color = colors.clr.fg.cyan
+        if elt != "Index" and (columns_type[elt] is int or columns_type[elt] is float):
+            data_sort = sorted(data_dic[elt], key=lambda x: (x is None, x))
+            if columns_len < 1:
+                q2 = None
+            elif (columns_len % 2 != 0):
+                q2 = data_sort[int((columns_len - 1) / 2)]
+            elif (columns_len % 2 == 0):
+                val1 = data_sort[int(columns_len / 2)]
+                val2 = data_sort[int((columns_len / 2) + 1)]
+                q2 = (val1 + val2) / 2
+
+            if q2 != None:
+                formatted = "{:.6f}".format(q2)
+            else:
+                formatted = q2
+            print(f"{color}", end="")
+            print(formatted, end="")
+            print(" "*(columns_elt_mlen[elt] - len(str(formatted))), end="")
+            print(" "*4, end="")
+            alternate_color = not alternate_color
+    
+    print(colors.clr.reset, end="")
+    print("")
+
+
+def display_75quartile(headers, columns_elt_mlen, columns_type, columns_len, data_dic):
     alternate_color = True
 
     print("75%", end="")
@@ -250,7 +286,7 @@ def display_75quartiles(headers, columns_elt_mlen, columns_type, columns_len, da
             if data_sort[q3] != None:
                 formatted = "{:.6f}".format(data_sort[q3])
             else:
-                formatted = data_sort[elt][q3]
+                formatted = data_sort[q3]
             print(f"{color}", end="")
             print(formatted, end="")
             print(" "*(columns_elt_mlen[elt] - len(str(formatted))), end="")
@@ -282,15 +318,11 @@ if __name__ == "__main__":
     display_mean(csv_object["headers"], csv_object["columns_elt_mlen"], csv_object["columns_type"], csv_object["columns_len"], csv_object["data_dic"])
     display_std(csv_object["headers"], csv_object["columns_elt_mlen"], csv_object["columns_type"], csv_object["columns_len"], csv_object["data_dic"])
     display_min(csv_object["headers"], csv_object["columns_elt_mlen"], csv_object["columns_type"], csv_object["data_dic"])
-    display_25quartiles(csv_object["headers"], csv_object["columns_elt_mlen"], csv_object["columns_type"], csv_object["columns_len"], csv_object["data_dic"])
-    #display_mediane(csv_object["headers"], csv_object["columns_elt_mlen"], csv_object["columns_type"], csv_object["columns_len"], csv_object["data_dic"])
-    display_75quartiles(csv_object["headers"], csv_object["columns_elt_mlen"], csv_object["columns_type"], csv_object["columns_len"], csv_object["data_dic"])
+    display_25quartile(csv_object["headers"], csv_object["columns_elt_mlen"], csv_object["columns_type"], csv_object["columns_len"], csv_object["data_dic"])
+    display_50quartile(csv_object["headers"], csv_object["columns_elt_mlen"], csv_object["columns_type"], csv_object["columns_len"], csv_object["data_dic"])
+    display_75quartile(csv_object["headers"], csv_object["columns_elt_mlen"], csv_object["columns_type"], csv_object["columns_len"], csv_object["data_dic"])
     display_max(csv_object["headers"], csv_object["columns_elt_mlen"], csv_object["columns_type"], csv_object["data_dic"])
 
-    # print(csv_object["data_list"][1])
-    # print("")
-    # print(csv_object["data_dic"]["Best Hand"])
-
     print("")
-    print("success get data")
+    print("")
     exit(0)
