@@ -45,8 +45,15 @@ def insert_data_in_list(dic, headers):
 
 
 def find_type_of_column(headers, data_list):
-    
+    columns_type = {}
 
+    index = 0
+    for elt in headers:
+        columns_type[elt] = type(data_list[0][index])
+        index += 1
+
+    return columns_type
+    
 
 def parse(csv_data, path):
     """
@@ -76,6 +83,7 @@ def parse(csv_data, path):
     csv_object["data_dic"] = data_dic
     csv_object["columns_len"] = len(data_list)
     csv_object["columns_number"] = len(headers)
+    csv_object["columns_type"] = columns_type
 
     # stop loading animation
     loading_animation.stop()
