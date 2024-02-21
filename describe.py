@@ -1,6 +1,6 @@
 import sys as sys
 import os
-from tools import colors, load_csv, parse_csv, loading_animation
+from tools import colors, load_csv, parse_csv, loading_animation, get_csv_object
 import threading
 from decimal import Decimal
 from math import sqrt, ceil
@@ -307,7 +307,7 @@ def parse_and_get_object():
 
 if __name__ == "__main__":
 
-    csv_object = parse_and_get_object()
+    csv_object = get_csv_object.get()
 
     #find max elt len by column and by entire csv
     max_len, csv_object["columns_elt_mlen"] = find_max_len_elt(csv_object["headers"], csv_object["data_dic"], csv_object["columns_type"], csv_object["columns_len"])
