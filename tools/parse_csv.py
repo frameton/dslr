@@ -1,7 +1,5 @@
 import pandas as pd
-import os
 from tools import colors, loading_animation
-import time
 import sys
 
 
@@ -79,6 +77,7 @@ def parse(csv_data, path):
     # create csv_objet with all informations and data
     csv_object = {}
     csv_object["headers"] = headers
+    csv_object["data_brut"] = csv_data
     csv_object["data_list"] = data_list
     csv_object["data_dic"] = data_dic
     csv_object["columns_len"] = len(data_list)

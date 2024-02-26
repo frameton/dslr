@@ -1,8 +1,5 @@
 import sys as sys
-import os
-from tools import colors, load_csv, parse_csv, loading_animation, get_csv_object
-import threading
-from decimal import Decimal
+from tools import colors, load_csv, parse_csv, get_csv_object
 from math import sqrt, ceil
 
 
